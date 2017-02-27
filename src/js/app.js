@@ -14,6 +14,9 @@ var profileHtmlStr = ``
 var repoHtmlStr = ``
 
 
+
+
+
 inputValEl.addEventListener('keydown', function(evt){
 
   // console.log(evt)
@@ -23,6 +26,16 @@ inputValEl.addEventListener('keydown', function(evt){
       window.location.hash = inputValEntered
       userLogin = inputValEntered
       console.log(userLogin)
+      // Victor helped me here through the rest of this function 
+      fetchUserProfileData = $.getJSON(`https://api.github.com/users/${userLogin}`)
+      fetchUserRepoData = $.getJSON(`https://api.github.com/users/${userLogin}/repos`)
+      // console.log(fetchUserRepoData, fetchUserProfileData)
+      $.when(fetchUserProfileData, fetchUserRepoData).then((data1,data2)=>{
+        var htmlTemplate = userHtmlTemplate(data1[0], data2[0])
+      })
+
+      // var htmlTemplate = userHtmlTemplate(fetchUserProfileData[0], fetchUserRepoData[0])
+
     }
 })
 
